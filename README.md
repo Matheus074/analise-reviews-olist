@@ -16,6 +16,13 @@ O projeto tem duas etapas:
 > Este projeto complementa o [NPS Preditivo em E-commerce](https://github.com/Matheus074/NPS-Preditivo-em-E-commerce):
 > lá o foco é prever **quem** vai ficar insatisfeito; aqui, entender **por quê**.
 
+## ⚡ Em resumo
+
+- O atraso é o maior gatilho isolado: com 4+ dias de atraso, mais de dois terços das avaliações são negativas.
+- Mas **57% das avaliações negativas vêm de pedidos entregues no prazo**.
+- Lendo esses comentários com IA, a causa aparece: **76% são falhas de produto ou de separação do pedido**
+  (pedido incompleto, produto errado, defeito, qualidade), e não de logística.
+
 ## 💡 Principais achados
 
 ### 1. Com 4 ou mais dias de atraso, a maioria das avaliações vira negativa
@@ -70,7 +77,42 @@ Gemini, que escolhe **um motivo principal** em uma lista fechada:
 - **Chave da API protegida** nos *Secrets* do Colab, nunca no código.
 - **Conferência manual** de uma amostra das classificações antes de tirar conclusões.
 
-> 🚧 **Resultados da classificação em breve.**
+### Resultados
+
+![Motivos das avaliações negativas no prazo](img/5_motivos_no_prazo.png)
+
+**% de cada motivo dentro de cada grupo** (600 comentários classificados pelo Gemini):
+
+| Motivo | No prazo | Com atraso | Não entregue |
+|---|---:|---:|---:|
+| Pedido incompleto | **24%** | 0% | 2% |
+| Produto errado ou diferente do anúncio | **22%** | 2% | 0% |
+| Produto com defeito ou danificado | **18%** | 0% | 1% |
+| Qualidade abaixo do esperado | **12%** | 0% | 0% |
+| Outro ou sem motivo claro | 8% | 9% | 6% |
+| Produto não recebido | 7% | **61%** | **45%** |
+| Atraso na entrega | 6% | 23% | 16% |
+| Atendimento e pós-venda | 4% | 6% | **31%** |
+
+**O que os comentários revelam**
+- **Quando a entrega chega no prazo, o problema é o produto ou a separação do pedido, não a logística.** Pedido
+  incompleto, produto errado, defeito e qualidade somam **76%** das reclamações desse grupo. Como ele responde
+  por 57% das avaliações negativas, essas falhas explicam, em estimativa, **cerca de 4 em cada 10 avaliações
+  negativas** da base.
+- **"Pedido incompleto" é o motivo nº 1 no prazo:** os comentários indicam pedidos com vários itens que chegam
+  separados, com o cliente avaliando antes de receber tudo.
+- **Em pedidos atrasados, 61% dos clientes ainda não receberam o produto** quando avaliam: a Olist envia a
+  pesquisa na data prevista de entrega, e o cliente avalia a espera.
+- **Em pedidos não entregues, o atendimento pesa (31%):** cancelamentos sem aviso, falta de resposta e produto fora
+  de estoque.
+
+**Recomendações:** reforçar a conferência dos itens antes do envio, revisar anúncios com muitas reclamações de
+"produto diferente", avisar o cliente sobre entregas parciais e só enviar a pesquisa de satisfação após a entrega
+completa.
+
+**Validação:** 25 classificações conferidas manualmente, com 24 corretas e 1 discutível (cerca de 96% de acerto).
+*Limitações:* amostra de 600 comentários (margem de erro de cerca de ±6 p.p. no grupo "no prazo"); considera apenas
+avaliações negativas com comentário escrito.
 
 ## 📁 Estrutura
 
@@ -78,7 +120,7 @@ Gemini, que escolhe **um motivo principal** em uma lista fechada:
 .
 ├── notebooks/
 │   ├── 01_analise_exploratoria.ipynb   # Análise exploratória (com resultados)
-│   └── 02_classificacao_gemini.ipynb   # Classificação dos comentários com Gemini
+│   └── 02_classificacao_gemini.ipynb   # Classificação dos comentários com Gemini (com resultados)
 ├── img/                                # Gráficos gerados pelos notebooks
 ├── dados/                              # Coloque aqui os CSVs do Kaggle (não versionados)
 └── requirements.txt
