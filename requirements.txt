@@ -1,0 +1,6 @@
+pandas
+numpy
+matplotlib
+pydantic
+google-genai
+jupyter

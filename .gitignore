@@ -1,0 +1,10 @@
+# Dados do Kaggle (baixe e coloque em dados/)
+dados/*
+!dados/README.md
+
+# Ambiente
+.env
+.venv/
+venv/
+__pycache__/
+.ipynb_checkpoints/
